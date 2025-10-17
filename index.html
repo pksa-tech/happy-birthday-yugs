@@ -1,0 +1,2123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Yogita! 🎉</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .song {
+            visibility: hidden;
+        }
+
+        /* Pre-intro dialogue screen */
+        .dialogue-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+        }
+
+        .dialogue-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .dialogue-container {
+            text-align: center;
+            max-width: 800px;
+            padding: 40px;
+        }
+
+        .dialogue-text {
+            font-size: 1.8rem;
+            color: #fff;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .dialogue-text.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dialogue-controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .next-button, .skip-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .next-button:hover, .skip-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .progress-bar {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            width: 0%;
+            transition: width 5s linear;
+            border-radius: 2px;
+        }
+
+        /* Animation container */
+        .animation-container {
+            height: 100vh;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+            text-align: center;
+            visibility: hidden;
+            width: 100vw;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #fecfef 50%, #f093fb 75%, #f5576c 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease-in-out infinite;
+        }
+
+        .animation-container.show {
+            visibility: visible;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+        }
+
+        .animation-container > div {
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 20vh;
+        }
+
+        /* Animation sections */
+        .one {
+            font-size: 4.5rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .one #name {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .two {
+            font-size: 1.2rem;
+            font-weight: lighter;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .three {
+            font-size: 3rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .birthday-info {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            display: inline-block;
+        }
+
+        .four {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            color: #333;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .profile-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            border: 3px solid white;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .text-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .text-box p {
+            margin: 0;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        .text-box span {
+            visibility: hidden;
+        }
+
+        .text-box .fake-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border-radius: 20px;
+            bottom: -25px;
+            color: #fff;
+            padding: 8px 20px;
+            position: absolute;
+            right: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .five p {
+            font-size: 2rem;
+            left: 0;
+            position: absolute;
+            right: 0;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .idea-3 strong {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border-radius: 8px;
+            display: inline-block;
+            padding: 5px 15px;
+            color: white;
+        }
+
+        .five .idea-5 {
+            font-size: 4rem;
+        }
+
+        .idea-5 span,
+        .idea-6 span {
+            display: inline-block;
+        }
+
+        .idea-6 span {
+            font-size: 15rem;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .six {
+            position: relative;
+            top: 10vh;
+            z-index: 1;
+        }
+
+        .six img.profile-picture {
+            display: inline-block;
+            height: 350px;
+            max-width: 100%;
+            border-radius: 20px;
+            border: 5px solid white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .wish {
+            margin-top: 20px;
+        }
+
+        .wish-hbd {
+            font-size: 3em;
+            margin: 0;
+            text-transform: uppercase;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .wish-hbd span {
+            display: inline-block;
+        }
+
+        .wish h5 {
+            font-size: 2rem;
+            font-weight: lighter;
+            margin: 10px 0 0;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .baloons div {
+            display: inline-block;
+            position: absolute;
+            width: 50px;
+            height: auto;
+        }
+
+        .seven {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            width: 100vw;
+        }
+
+        .eight {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            width: 100vw;
+        }
+
+        .eight svg {
+            left: 0;
+            position: absolute;
+            top: 0;
+            visibility: hidden;
+            width: 25px;
+            z-index: -1;
+        }
+
+        .eight svg:nth-child(1) { fill: #bd6ecf; left: 5vw; top: 7vh; }
+        .eight svg:nth-child(2) { fill: #7dd175; left: 35vw; top: 23vh; }
+        .eight svg:nth-child(3) { fill: #349d8b; left: 23vw; top: 33vh; }
+        .eight svg:nth-child(4) { fill: #347a9d; left: 57vw; top: 43vh; }
+        .eight svg:nth-child(5) { fill: #c66053; left: 7vw; top: 68vh; }
+        .eight svg:nth-child(6) { fill: #bfaa40; left: 77vw; top: 42vh; }
+        .eight svg:nth-child(7) { fill: #e3bae8; left: 83vw; top: 68vh; }
+        .eight svg:nth-child(8) { fill: #8762cb; left: 37vw; top: 86vh; }
+        .eight svg:nth-child(9) { fill: #9a90da; left: 87vw; top: 94vh; }
+
+        .nine p {
+            font-size: 2rem;
+            font-weight: lighter;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        #replay {
+            cursor: pointer;
+            z-index: 3;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        #replay:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .last-smile {
+            font-size: 4rem !important;
+        }
+
+        /* Main website sections */
+        .main-website {
+            display: none;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #fecfef 50%, #f093fb 75%, #f5576c 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease-in-out infinite;
+            min-height: 100vh;
+        }
+
+        .main-website.active {
+            display: block;
+        }
+
+        /* Glass morphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Birthday Cake */
+        .cake-container {
+            position: relative;
+            display: inline-block;
+            margin: 30px 0;
+        }
+
+        .cake {
+            font-size: 8rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            user-select: none;
+            animation: wiggle 2s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(2deg); }
+            75% { transform: rotate(-2deg); }
+        }
+
+        .cake:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .candles {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .candle {
+            font-size: 2rem;
+            animation: flicker 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        .wish-button {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .wish-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        /* What Makes You Special */
+        .traits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .trait-card {
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .trait-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .trait-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .trait-title {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .trait-desc {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+       /* Photo Gallery */
+.photo-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.photo-frame {
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Morphing Keyword Animation */
+.morph-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.morph-keyword {
+  position: absolute;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  transform-origin: center;
+  cursor: pointer;
+  z-index: 2;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  transition: all var(--morph-duration, 0.8s) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.morph-sentence {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  color: white;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all var(--morph-duration, 0.8s) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.morph-sentence .target-word {
+  display: inline-block;
+  font-weight: 600;
+  opacity: 0;
+}
+
+/* States */
+.morph-container.morphed .morph-sentence {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.morph-container.morphed .morph-keyword {
+  transform: translate(var(--morph-x, 0), var(--morph-y, 0)) scale(var(--morph-scale, 0.6));
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .morph-keyword {
+    font-size: 1.4rem;
+    padding: 6px 12px;
+  }
+  
+  .morph-sentence {
+    font-size: 0.9rem;
+    padding: 12px;
+  }
+}
+
+.photo-frame:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%; /* show more of upper part (faces) */
+  transition: transform 0.6s ease, filter 0.4s ease;
+  display: block;
+  cursor: pointer;
+}
+
+
+.photo-frame p {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  text-align: center;
+  font-size: 0.95rem;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+/* New caption split: keyword (always visible) + full text (revealed on hover) */
+.photo-caption {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    overflow: hidden;
+}
+.photo-caption .keyword {
+    font-weight: 700;
+    white-space: nowrap;
+}
+.photo-caption .full {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    white-space: nowrap;
+}
+
+/* Frame hover: zoom image and reveal full caption, slightly expand frame height */
+.photo-frame {
+    height: 260px;
+}
+.photo-frame:hover {
+    transform: scale(1.03);
+    z-index: 2;
+}
+.photo-frame:hover img {
+    transform: scale(1.12);
+}
+.photo-frame:hover .photo-caption .full {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Make frames taller on larger screens to show more of the image */
+@media (min-width: 900px) {
+    .photo-frame { height: 320px; }
+}
+@media (max-width: 420px) {
+    .photo-frame { height: 180px; }
+    .photo-caption .full { display: none; } /* keep it simple on very small screens */
+}
+
+/* Keyword travel animation: prepare cloned keyword to animate from keyword position to target-word position */
+.photo-caption .target-word {
+    font-weight: 700;
+    color: inherit;
+}
+
+.gallery-controls {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.gallery-btn {
+    background: rgba(255,255,255,0.12);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.12s ease;
+}
+.gallery-btn:active { transform: translateY(1px); }
+
+/* Mobile: show controls and make frames horizontally scrollable */
+@media (max-width: 768px) {
+    .photo-gallery {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+    .photo-frame {
+        min-width: 85%;
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+        margin-right: 16px;
+    }
+    .gallery-controls { display: flex; }
+}
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1000;
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  object-fit: contain; /* shows full image */
+}
+
+.lightbox-caption {
+  margin-top: 20px;
+  color: #fff;
+  font-size: 1.2rem;
+  text-align: center;
+  line-height: 1.5;
+  max-width: 90%;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.lightbox-close:hover {
+  transform: scale(1.1);
+}
+
+
+
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(to bottom, #ff6b6b, #4ecdc4);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: #ff6b6b;
+            border: 4px solid #fff;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 50%;
+        }
+
+        .right::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            padding: 20px 30px;
+            position: relative;
+            border-radius: 15px;
+        }
+
+        .timeline-content h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .timeline-content p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Birthday Card */
+        .birthday-card {
+            perspective: 1000px;
+            margin: 40px auto;
+            width: 300px;
+            height: 400px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 30px;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        /* Fireworks */
+        .firework {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .dialogue-text {
+                font-size: 1.4rem;
+                padding: 20px;
+                min-height: 150px;
+            }
+
+            .progress-bar {
+                width: 200px;
+            }
+
+            .next-button, .skip-button {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+            
+            .one {
+                font-size: 2.5rem;
+            }
+
+            .two {
+                font-size: 1rem;
+                padding: 0 20px;
+            }
+
+            .three {
+                font-size: 2rem;
+            }
+
+            .birthday-info {
+                font-size: 1.2rem;
+                padding: 15px;
+            }
+
+            .four {
+                padding: 0 15px;
+            }
+
+            .text-box {
+                width: 95%;
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+
+            .text-box .fake-btn {
+                bottom: -20px;
+                right: 15px;
+                padding: 6px 15px;
+                font-size: 0.9rem;
+            }
+
+            .five p {
+                font-size: 1.5rem;
+                padding: 0 20px;
+            }
+
+            .idea-3 {
+                font-size: 1.3rem !important;
+            }
+
+            .idea-5 {
+                font-size: 2.5rem !important;
+            }
+
+            .idea-6 span {
+                font-size: 8rem !important;
+            }
+
+            .six img.profile-picture {
+                height: 250px;
+                max-width: 90%;
+            }
+
+            .wish-hbd {
+                font-size: 2rem !important;
+            }
+
+            .wish h5 {
+                font-size: 1.3rem !important;
+                padding: 0 15px;
+            }
+
+            .nine p {
+                font-size: 1.3rem;
+                padding: 0 20px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 20px;
+            }
+            
+            .cake {
+                font-size: 5rem;
+            }
+
+            .candles {
+                top: -15px;
+            }
+
+            .candle {
+                font-size: 1.5rem;
+            }
+
+            .wish-button {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+
+            .traits-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .trait-card {
+                padding: 25px;
+            }
+
+            .trait-icon {
+                font-size: 2.5rem;
+            }
+
+            .trait-title {
+                font-size: 1.2rem;
+            }
+
+            .trait-desc {
+                font-size: 0.9rem;
+            }
+
+            .photo-gallery {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  .photo-frame {
+    height: 180px; /* Shrink for smaller screens */
+    font-size: 0.95rem;
+  }
+  .photo-frame p {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::before {
+                left: 60px;
+                border: medium solid white;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent white transparent transparent;
+            }
+            
+            .left::after, .right::after {
+                left: 21px;
+            }
+            
+            .right {
+                left: 0%;
+            }
+
+            .timeline-content {
+                padding: 15px 20px;
+            }
+
+            .timeline-content h3 {
+                font-size: 1.1rem;
+            }
+
+            .timeline-content p {
+                font-size: 0.9rem;
+            }
+
+            .birthday-card {
+                width: 280px;
+                height: 380px;
+            }
+
+            .card-front, .card-back {
+                padding: 20px;
+                font-size: 0.9rem;
+            }
+
+            .nav {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .nav-item {
+                padding: 6px 12px;
+                font-size: 10px;
+            }
+
+            .section {
+                padding: 60px 15px;
+                min-height: auto;
+            }
+
+            #replay, #continueBtn {
+                padding: 8px 16px !important;
+                font-size: 0.9rem !important;
+            }
+
+            .last-smile {
+                font-size: 3rem !important;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .dialogue-text {
+                font-size: 1.2rem;
+                min-height: 120px;
+            }
+
+            .one {
+                font-size: 2rem;
+            }
+
+            .three {
+                font-size: 1.6rem;
+            }
+
+            .birthday-info {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .cake {
+                font-size: 4rem;
+            }
+
+            .idea-6 span {
+                font-size: 6rem !important;
+            }
+
+            .nav-item {
+                padding: 5px 10px;
+                font-size: 9px;
+            }
+
+            .birthday-card {
+                width: 260px;
+                height: 350px;
+            }
+        }
+
+        /* Landscape mobile optimization */
+        @media screen and (max-height: 600px) and (orientation: landscape) {
+            .section {
+                min-height: auto;
+                padding: 40px 20px;
+            }
+
+            .animation-container > div {
+                top: 10vh;
+            }
+
+            .one {
+                font-size: 2rem;
+            }
+
+            .three {
+                font-size: 1.8rem;
+            }
+
+            .cake {
+                font-size: 4rem;
+            }
+        }
+
+        /* Very small screens */
+        @media screen and (max-width: 360px) {
+            .dialogue-text {
+                font-size: 1.1rem;
+            }
+
+            .one {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .trait-card {
+                padding: 20px;
+            }
+
+            .timeline-item {
+                padding-left: 60px;
+                padding-right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Music -->
+    <audio class="song" loop>
+        <!-- CUSTOMIZE: Replace with your song file path -->
+        <source src="./music/Count-On-Me-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Pre-intro Dialogue Screen -->
+    <div class="dialogue-screen" id="dialogueScreen">
+        <div class="dialogue-container">
+            <div class="dialogue-text" id="dialogueText"></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="dialogue-controls">
+                <button class="next-button" id="nextButton" onclick="nextDialogue()">Next →</button>
+                <button class="skip-button" onclick="skipIntro()">Skip Intro</button>
+            </div>
+            <div style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem; margin-top: 20px;">
+                Auto-plays in 5 seconds (or click Next)
+            </div>
+        </div>
+    </div>
+
+    <!-- Animation Container (GSAP Intro) -->
+    <div class="animation-container" id="animationContainer">
+        <div class="one">
+            <h1 class="one">
+                Hi <span id="name">Yogita</span>!
+            </h1>
+            <p class="two">Kaisi hai tu!!! Ready for something special? 😊</p>
+        </div>
+
+        <div class="three">
+            <p>It's your birthday!! 🎉</p>
+            <div class="birthday-info">
+                <div class="date-container">
+                    <span id="day">18</span> <span id="month">October</span>
+                </div>
+                <div class="age-container" style="margin-top: 10px;">
+                    <p>🎂 Another year of being amazing!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="four">
+            <div class="profile">
+                <img src="photos/profile.webp" alt="Profile" class="profile-image" />
+                <h2 class="profile-name">To My Favorite Idiot 💖</h2>
+            </div>
+            <div class="text-box">
+                <p class="hbd-chatbox">
+                                        Happy Birthday Yogita! woow 21 haah! just want to say tight your seatbelt now the real ride of this journey begins , but i know tu handle kar lege that's one of your speciality . your one of the bravest souls i have met . you are really a fabulous, amazing, independent and an awesome person . i am really blessed to met you in this life . i hope may this birthday brings all the joy and happiness in your life also all those great fantasy dreams or wishes may come true , kehne ko to bhohat hai but me terko bor nahi karna chahta so once again happy birthday from one of your true fan!!!!🌟
+
+                </p>
+                <p class="fake-btn">Send</p>
+            </div>
+        </div>
+
+        <div class="five">
+            <p class="idea-1">Sochta tha ki bas ek simple message bhej deta.</p>
+            <p class="idea-2">But phir ruk gaya.</p>
+            <p class="idea-3">
+                Kyunki tumhare liye kuch<br>
+                <strong>special</strong> banana tha.
+            </p>
+            <p class="idea-4">Kyunki,</p>
+            <p class="idea-5">
+                You are Special
+                <span>😊</span>
+            </p>
+            <p class="idea-6">
+                <span>S</span>
+                <span>O</span>
+            </p>
+        </div>
+
+        <div class="six">
+            <img src="/photos/yugs 1.webp" alt="Yogita" class="profile-picture" />
+            <div class="wish">
+                <h3 class="wish-hbd">Happy Birthday!</h3>
+                <h5>You're the organized chaos that makes life interesting! 😄💕</h5>
+            </div>
+        </div>
+
+        <div class="seven">
+            <div class="baloons"></div>
+        </div>
+
+        <div class="eight">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="20" />
+            </svg>
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="20" />
+            </svg>
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="20" />
+            </svg>
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="20" />
+            </svg>
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="20" />
+            </svg>
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="20" />
+            </svg>
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="20" />
+            </svg>
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="20" />
+            </svg>
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="20" />
+            </svg>
+        </div>
+
+        <div class="nine">
+            <p>Now let's continue to the main celebration! 🎊</p>
+            <p id="continueBtn" style="cursor: pointer; background: rgba(255, 255, 255, 0.2); padding: 10px 20px; border-radius: 25px; display: inline-block;">Click to Continue →</p>
+        </div>
+    </div>
+
+    <!-- Main Website Content -->
+    <div class="main-website" id="mainWebsite">
+        <!-- Navigation -->
+        <nav class="nav">
+            <a href="#cake" class="nav-item">Celebrate</a>
+            <a href="#special" class="nav-item">What Makes You Special</a>
+            <a href="#memories" class="nav-item">Memories</a>
+            <a href="#timeline" class="nav-item">Our Journey</a>
+            <a href="#wishes" class="nav-item">Wishes</a>
+        </nav>
+
+        <!-- Birthday Cake Section -->
+        <section id="cake" class="section">
+            <div class="container glass">
+                <h2 class="section-title">Make a Wish! 🎂</h2>
+                <div class="cake-container">
+                    <div class="candles">
+                        <span class="candle">🕯️</span>
+                        <span class="candle">🕯️</span>
+                        <span class="candle">🕯️</span>
+                    </div>
+                    <div class="cake" onclick="blowCandles()">🎂</div>
+                </div>
+                <button class="wish-button" onclick="makeWish()">Make a Wish!</button>
+                <p style="color: white; margin-top: 20px; font-size: 1.1rem;">
+                    Click the cake to blow out the candles! 🌟
+                </p>
+            </div>
+        </section>
+
+        <!-- What Makes You Special Section -->
+        <section id="special" class="section">
+            <div class="container glass">
+                <h2 class="section-title">What Makes You YOU ✨</h2>
+                <div class="traits-grid">
+                    
+                    <div class="trait-card glass">
+                        <div class="trait-icon">🦋</div>
+                        <h3 class="trait-title">Your Independence</h3>
+                        <p class="trait-desc">You know what you want and you're not afraid to be yourself. That's rare and beautiful.</p>
+                    </div>
+                    <div class="trait-card glass">
+                        <div class="trait-icon">😂</div>
+                        <h3 class="trait-title">Your Adorable Chaos</h3>
+                        <p class="trait-desc">Karne khuch aur jate hai ho khuch aur jata hai and yet you manage everything - you're a beautiful mess and I love it!</p>
+                    </div>
+                    <div class="trait-card glass">
+                        <div class="trait-icon">💝</div>
+                        <h3 class="trait-title">Your Caring Heart</h3>
+                        <p class="trait-desc"> Mana bade nich selfish hai tu but you care, even if its in small quantity or hidden behind your arrogant word you really do.</p>
+                    </div>
+                    <div class="trait-card glass">
+                        <div class="trait-icon">🌈</div>
+                        <h3 class="trait-title">Your Playful Side</h3>
+                        <p class="trait-desc"> Every conversation i had with you makes me talk with you even more. your teasing, your humor - you make everything fun!</p>
+                    </div>
+                    <div class="trait-card glass">
+                        <div class="trait-icon">✨</div>
+                        <h3 class="trait-title">Your Authenticity</h3>
+                        <p class="trait-desc">No fake pretenses. Just real, honest you. That's what makes our friendship special.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photo Gallery Section -->
+        <section id="memories" class="section">
+            <div class="container glass">
+                <h2 class="section-title">Beautiful Memories 📸</h2>
+                <div class="photo-gallery" id="photoGallery">
+                    <div class="photo-frame">
+                        <img src="/photos/yugs_smiling.jpg" alt="smiling yugs">
+                        <p class="photo-caption"><span class="keyword">📷 Smile</span><span class="full">That <span class="target-word">smile</span> that brightens everything</span></p>
+                    </div>
+                    <div class="photo-frame">
+                        <img src="/photos/traditional_1_yugs.png" alt="traditional yugs">
+                        <p class="photo-caption"><span class="keyword">🌸 Beautiful</span><span class="full">That <span class="target-word">beautiful</span> traditional look</span></p>
+                    </div>
+                    <div class="photo-frame">
+                        <img src="/photos/fun_1_yugs.jpg" alt="fun yugs">
+                        <p class="photo-caption"><span class="keyword">✨ Laugh</span><span class="full">Moments that made us <span class="target-word">laugh</span></span></p>
+                    </div>
+                    <div class="photo-frame">
+                        <img src="/photos/fun_2_yugs.png" alt="fun times">
+                        <p class="photo-caption"><span class="keyword">🎭 Fun</span><span class="full"><span class="target-word">Fun</span> times together</span></p>
+                    </div>
+                    <div class="photo-frame">
+                        <img src="/photos/us_laugh_yugs.jpg" alt="us laugh">
+                        <p class="photo-caption"><span class="keyword">🌅 Candid</span><span class="full">Your <span class="target-word">candid</span>, genuine self</span></p>
+                    </div>
+                    <div class="photo-frame">
+                        <img src="/photos/memories_1_yugs.jpg" alt="memories">
+                        <p class="photo-caption"><span class="keyword">💫 Memories</span><span class="full"><span class="target-word">Memories</span> we'll always treasure</span></p>
+                    </div>
+                </div>
+                <div class="gallery-controls" aria-hidden="false">
+                    <button id="galleryPrev" class="gallery-btn" aria-label="Previous">‹</button>
+                    <button id="galleryNext" class="gallery-btn" aria-label="Next">›</button>
+                </div>
+                <p style="color: white; margin-top: 30px; font-style: italic;">
+                    "Every picture tells a story" 💕
+                </p>
+            </div>
+        </section>
+        <!-- Lightbox (Hidden by Default) -->
+<div id="lightbox" class="lightbox">
+  <span class="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div id="lightbox-caption" class="lightbox-caption"></div>
+</div>
+
+
+        <!-- Timeline Section -->
+        <section id="timeline" class="section">
+            <div class="container glass">
+                <h2 class="section-title">Our Friendship Journey 🛤️</h2>
+                <div class="timeline">
+                    <div class="timeline-item left">
+                        <div class="timeline-content glass">
+                            <h3>The Beginning</h3>
+                            <p>When we first meet ,if i am not wrong that was on 21st jan 2021 , mere maan me bhohat questions the pata nahi kyu but ek andar se feeling thi ki terko me janta hu ya kahi to dekha hai tujhe like i have known you for a long time maybe a dejavu!! baat to merko khudse karne thi but mere andar ka introvert darshan se introduce karwaya khudko but jo bhi hua i am so thankful to god wo hua nahi to thodha bhohat muskil hi hota apna itne close hona </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item right">
+                        <div class="timeline-content glass">
+                            <h3>Growing Closer</h3>
+                            <p> Those Daily talks, sharing laughs, those "haha" moments, and building a real connection. ek dusre ki udana ,majje lena we were not just limited to humor and sarcasm we shared a lot of stuff like emotion, both good and bad memories of past and present this mutual sharing made us more understandable for both of us and lead us to grow more close to each other, ek dusre ko samjhne lage and we became best friends. i know puch ne ka tarika bhohat ajeeb tha infact shayad hi kisne ase puch hoga but it was worth it! </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item left">
+                        <div class="timeline-content glass">
+                            <h3>UP's and Down's</h3>
+                            <p>Every people have thier differences and point of view , bhalehi apne khuch milte the but , khuch nahi milte the kabhi tu galat hoti to kabhi me. kitna lade hai apan chote chote bato pe merko to yad bhi nahi, par end me fasta bichara me hi tha galti chahe kiske bhi ho sorry to merko hi bolna padta tha upar se terko manna padta tha kitna bhav khate the tab tobi tomboish behave karte thi thodha fir bhi. Mana apan kabhi physically inta interact nahi hue i still regret that khuch chutiyo ke sochne ke bajese me wo khuch bhi nahi kar saka jo college me friends karte hai aur me hamesha chutiyon ke tarah bate karta tha kabhi socha nahi i am wasting time now that i wont get in future. sach kahu to i think mere feelings ka triggering point usse se related hai , man me bas scenarios create hote the jab apan sath me nahi ho pate the and it grew more and more when the distance between the locations grew but chod its your birthday ye sab cheeje bolke terko disturb nahi karta</p>
+                        </div>
+                    </div>
+                
+                    <div class="timeline-item right">
+                        <div class="timeline-content glass">
+                            <h3>The Distance </h3>
+                            <p>Asa hua to bhohat bar hai ki apan bhohat din tak ek dusre ko mile nahi hai ,but jo merko diploma ke last paper ko hit hua ki this distance is going to increase a lot and it will never be same as before i felt a jolt of sadness , tera to nahi pata par me apne eklote mahila mitra lagbag kho dene wala hu,na usko tang kar sakta hu, na usko dekh sakta hu,na koi bachodi kar sakta hu. but still we quite manage ha itna nahi hote the baat but naye jagh - naye log naye dost sab lata hai cant stuck with past idoit like me jikso tere alwa koi aur dost wese bahi hi nahi khair jo bhi hua atleast yeah to jamna Distance helped us appreciate what we had - a genuine friendship.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item left">
+                        <div class="timeline-content glass">
+                            <h3>The Ghost Phase</h3>
+                            <p>After a complicated situation i confess myself i had feelings jo mene pata nahi kitna socha hoga fir bhi bata de , and then things got pretty complicated and then you ghosted me le sab bol hi raha hu to ye bhi bol deta hu me roj wo phase me 2 gali deta tha ek merko aur ek terko i dont think detail is needed just say it was my part of recovering/move on phase but bhai terse move on kar leta to me apne dost bhi kho deta isliye terko wapas message kiya tha merko tera answer pehele se pata tha but bura is bar ka laga tha ki tu merko samjh nahi paye tabh what i wanted was ter to galiya me ase ,bro me terse pyar kiya to galat to nahi kiya mene kabhi terse return me manga kya but chod bhai nahi hi baat to accha hai<p style="color: rgb(100, 24, 100);"><i>P.S : agar upar wali baat ka bura lage to bindas app do galiya chipka sakte hai wo batane ki hume jarurat nahi</i> </p> </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item right">
+                        <div class="timeline-content glass">
+                            <h3>Reconnection</h3>
+                            <p>Fir lagbag 7 mahino ki bachodi aur ek dusre ko time and space deneke baad jab dimag shant hua we Coming back together, stronger and wiser. Now things are normal, and it really feels right.so please dont make it worse later ok!!!</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item left">
+                        <div class="timeline-content glass">
+                            <h3>Today & Beyond</h3>
+                            <p>I promise i'll try my best and not to do something stupid and also promise to irritate you , roast you and tease you more, May your friendship last forever! 😊 toast to us.   </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-content glass">
+                    <center>Some thoughts you may have</center><p  style="color: purple; margin-top: 10px;">Abh  man me tere ye thoughts are honge bc birthday mera hai ye chutiya mere bare me chod kar apne bhare me kyu likha , abh merko pata hai tera childhood tune kya kiya kya bachodi ki kitni ki jitna mujhe pata hai utna sufficient nahi tha aur wese bhi merko to wohi yogita pata hai na jo mere sath yugs namke thi isliye ye dala.</p></div>
+            </div>
+        </section>
+
+        <!-- Birthday Wishes Section -->
+        <section id="wishes" class="section">
+            <div class="container glass">
+                <h2 class="section-title">Birthday Wishes From The Heart 💌</h2>
+                
+                <!-- Interactive Birthday Card -->
+                <div class="birthday-card" onclick="flipCard()">
+                    <div class="card-inner" id="birthdayCard">
+                        <div class="card-front">
+                            <h3 style="margin-bottom: 20px;">🎉 Click to Open 🎉</h3>
+                            <p style="font-size: 4rem;">🎁</p>
+                            <p>Your special message awaits...</p>
+                        </div>
+                        <div class="card-back">
+                            <h3 style="margin-bottom: 20px;">Happy Birthday Yogita! 🎂</h3>
+                            <p style="line-height: 1.6; font-size: 0.95rem;">
+                                On your special day, I want you to know how grateful I am for our friendship. 
+                                You bring energy, authenticity, and so much joy. I'm lucky to know someone as 
+                                real and amazing as you. Here's to another year of your incredible journey! 🌟
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px; padding: 30px; background: rgba(255, 255, 255, 0.1); border-radius: 15px;">
+                    <h3 style="color: white; margin-bottom: 20px;">Special Birthday Wishes 🌈</h3>
+                    <div style="text-align: left; color: rgba(255, 255, 255, 0.9); line-height: 1.8;">
+                        <p>🎉 May this year bring you endless joy and beautiful moments</p>
+                        <p>✨ May you continue to shine with that amazing energy of yours</p>
+                        <p>🌸 May your independence and strength inspire everyone around you</p>
+                        <p>💝 May you always know how special and appreciated you are</p>
+                        <p>🌟 May our friendship continue to grow stronger with each passing day</p>
+                    </div>
+                </div>
+
+                <button class="wish-button" onclick="createFireworks()" style="margin-top: 30px; font-size: 1.2rem;">
+                    🎆 Celebrate With Fireworks! 🎆
+                </button>
+                
+                <div style="margin-top: 40px; padding: 25px; background: rgba(255, 255, 255, 0.1); border-radius: 15px;">
+                    <!-- <h3 style="color: rgb(45, 7, 68); margin-bottom: 15px;">From Your Dorky Friend </h3> -->
+                    <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.1rem; line-height: 1.6;">
+                        "I know I'm not earning yet, par yeh toh bana sakta tha na! 💝<br>
+                         Gussa toh nahi ho gayi na? 😅 bhai agar isme khuch bura hoga to i am really sorry for that. mene jo khuch bhi isme likha hai ya banaya hai wo sirf tere best friend ke nate aur hakk se banaya hai. this website depicts all my love, care and how much important you are to me/how special you are to me. I hope this little website really brings a smile to your face.<br>
+                        You deserve all the happiness in the world!<br>
+                        Happy Birthday, Yogita! 🎉💕"
+                    </p>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-top: 15px; font-style: italic;">
+                        - Your caring (and sometimes annoying) friend Roops 😄
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+const photoFrames = document.querySelectorAll('.photo-frame img');
+const captions = document.querySelectorAll('.photo-caption .full');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxCaption = document.getElementById('lightbox-caption');
+const lightboxClose = document.querySelector('.lightbox-close');
+
+photoFrames.forEach((img, index) => {
+  img.addEventListener('click', () => {
+    const caption = captions[index]?.innerHTML || '';
+    lightboxImg.src = img.src;
+    lightboxCaption.innerHTML = caption;
+    lightbox.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // prevent scroll behind
+  });
+});
+
+lightboxClose.addEventListener('click', () => {
+  lightbox.style.display = 'none';
+  document.body.style.overflow = '';
+});
+
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) {
+    lightbox.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+});
+</script>
+
+    <!-- Keyword Morph Animation -->
+    <script>
+    class KeywordMorph {
+        constructor(container, options = {}) {
+            this.container = container;
+            this.keyword = container.querySelector('.morph-keyword');
+            this.sentence = container.querySelector('.morph-sentence');
+            this.targetWord = this.sentence.querySelector('.target-word');
+            
+            this.options = {
+                duration: container.closest('[data-duration]')?.dataset.duration || '0.8s',
+                scale: parseFloat(container.closest('[data-scale]')?.dataset.scale || '0.6')
+            };
+            
+            this.init();
+        }
+        
+        init() {
+            this.container.style.setProperty('--morph-duration', this.options.duration);
+            this.container.style.setProperty('--morph-scale', this.options.scale);
+            
+            // Center keyword initially
+            this.centerKeyword();
+            
+            // Bind events
+            ['mouseenter', 'touchstart'].forEach(evt => 
+                this.container.addEventListener(evt, () => this.morph()));
+            
+            ['mouseleave', 'touchend'].forEach(evt => 
+                this.container.addEventListener(evt, () => this.unmorph()));
+                
+            // Recalculate on resize
+            window.addEventListener('resize', () => {
+                if (this.container.classList.contains('morphed')) {
+                    this.calculateMorphPosition();
+                } else {
+                    this.centerKeyword();
+                }
+            });
+        }
+        
+        centerKeyword() {
+            const containerRect = this.container.getBoundingClientRect();
+            const keywordRect = this.keyword.getBoundingClientRect();
+            
+            const x = (containerRect.width - keywordRect.width) / 2;
+            const y = (containerRect.height - keywordRect.height) / 2;
+            
+            this.keyword.style.left = `${x}px`;
+            this.keyword.style.top = `${y}px`;
+        }
+        
+        calculateMorphPosition() {
+            const keywordRect = this.keyword.getBoundingClientRect();
+            const targetRect = this.targetWord.getBoundingClientRect();
+            const containerRect = this.container.getBoundingClientRect();
+            
+            const x = targetRect.left - containerRect.left - (keywordRect.width - targetRect.width) / 2;
+            const y = targetRect.top - containerRect.top;
+            
+            this.container.style.setProperty('--morph-x', `${x}px`);
+            this.container.style.setProperty('--morph-y', `${y}px`);
+        }
+        
+        morph() {
+            this.calculateMorphPosition();
+            this.container.classList.add('morphed');
+        }
+        
+        unmorph() {
+            this.container.classList.remove('morphed');
+        }
+    }
+
+    // Initialize all morph containers
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.morph-container').forEach(container => {
+            new KeywordMorph(container);
+        });
+    });
+    </script>
+    <script>
+        // Dialogue system
+        const dialogues = [
+            "Hiiii! How are you? 😊",
+            "What are you doing today? 🤔",
+            "Hey, do you know what today is? 🤷‍♂️",
+            "I was getting bored so I made this site to irritate you! Hahaha! 😂",
+            "Ha! Kidding! I know EXACTLY what it is! 🎯",
+            "That's why I made this small present for you! 🎁",
+            "Abhi tak kamata nahi hu, so filhal isse se kaam chala le! 😅",
+            "I hope you like it! 💖"
+        ];
+
+        let currentDialogue = 0;
+        let autoPlayTimer;
+
+        function showDialogue(index) {
+            const dialogueText = document.getElementById('dialogueText');
+            const progressFill = document.getElementById('progressFill');
+            
+            dialogueText.classList.remove('show');
+            progressFill.style.width = '0%';
+            
+            setTimeout(() => {
+                dialogueText.textContent = dialogues[index];
+                dialogueText.classList.add('show');
+                
+                setTimeout(() => {
+                    progressFill.style.width = '100%';
+                }, 100);
+                
+                autoPlayTimer = setTimeout(() => {
+                    if (currentDialogue < dialogues.length - 1) {
+                        nextDialogue();
+                    } else {
+                        startAnimation();
+                    }
+                }, 5000);
+            }, 300);
+        }
+
+        function nextDialogue() {
+            clearTimeout(autoPlayTimer);
+            currentDialogue++;
+            
+            if (currentDialogue >= dialogues.length) {
+                startAnimation();
+            } else {
+                showDialogue(currentDialogue);
+            }
+        }
+
+        function skipIntro() {
+            clearTimeout(autoPlayTimer);
+            startAnimation();
+        }
+
+        function startAnimation() {
+            const dialogueScreen = document.getElementById('dialogueScreen');
+            dialogueScreen.classList.add('hidden');
+            
+            setTimeout(() => {
+                Swal.fire({
+                    title: "Do you want to play music in the background?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, play music!",
+                    cancelButtonText: "No, thanks"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.querySelector(".song").play().catch(() => {
+                            console.log("Autoplay prevented");
+                        });
+                    }
+                    animationTimeline();
+                });
+            }, 800);
+        }
+
+        // Create balloons
+        function createBalloons() {
+            const balloonsContainer = document.querySelector('.baloons');
+            const colors = ['#ff6b6b', '#ffd93d', '#6bcf7f', '#4ecdc4', '#ff9a9e'];
+            
+            for (let i = 0; i < 30; i++) {
+                const balloon = document.createElement('div');
+                balloon.innerHTML = '🎈';
+                balloon.style.position = 'absolute';
+                balloon.style.fontSize = '3rem';
+                balloon.style.color = colors[i % colors.length];
+                balloonsContainer.appendChild(balloon);
+            }
+        }
+
+        // GSAP Animation Timeline
+        const animationTimeline = () => {
+            const container = document.getElementById('animationContainer');
+            container.classList.add('show');
+
+            const textBoxChars = document.getElementsByClassName("hbd-chatbox")[0];
+            const hbd = document.getElementsByClassName("wish-hbd")[0];
+
+            textBoxChars.innerHTML = `<span>${textBoxChars.innerHTML.split("").join("</span><span>")}</span>`;
+            hbd.innerHTML = `<span>${hbd.innerHTML.split("").join("</span><span>")}</span>`;
+
+            const ideaTextTrans = {
+                opacity: 0,
+                y: -20,
+                rotationX: 5,
+                skewX: "15deg"
+            };
+
+            const ideaTextTransLeave = {
+                opacity: 0,
+                y: 20,
+                rotationY: 5,
+                skewX: "-15deg"
+            };
+
+            const tl = gsap.timeline();
+
+            tl.to(".animation-container", 0.6, { visibility: "visible" })
+            .from(".one", 0.9, { opacity: 0, y: 10 })
+            .from(".two", 0.9, { opacity: 0, y: 10 })
+            .to(".one", 0.7, { opacity: 0, y: 10 }, "+=3.5")
+            .to(".two", 0.7, { opacity: 0, y: 10 }, "-=1")
+            .from(".three", 0.7, { opacity: 0, y: 10 })
+            .to(".three", 0.7, { opacity: 0, y: 10 }, "+=3")
+            .from(".four", 0.7, { scale: 0.2, opacity: 0 })
+            .from(".fake-btn", 0.3, { scale: 0.2, opacity: 0 })
+            .staggerTo(".hbd-chatbox span", 1.5, { visibility: "visible" }, 0.05)
+            .to(".fake-btn", 0.1, { backgroundColor: "rgb(127, 206, 248)" }, "+=4")
+            .to(".four", 0.5, { scale: 0.2, opacity: 0, y: -150 }, "+=1")
+            .from(".idea-1", 0.7, ideaTextTrans)
+            .to(".idea-1", 0.7, ideaTextTransLeave, "+=2.5")
+            .from(".idea-2", 0.7, ideaTextTrans)
+            .to(".idea-2", 0.7, ideaTextTransLeave, "+=2.5")
+            .from(".idea-3", 0.7, ideaTextTrans)
+            .to(".idea-3 strong", 0.5, {
+                scale: 1.2,
+                x: 10,
+                backgroundColor: "rgb(21, 161, 237)",
+                color: "#fff"
+            })
+            .to(".idea-3", 0.7, ideaTextTransLeave, "+=2.5")
+            .from(".idea-4", 0.7, ideaTextTrans)
+            .to(".idea-4", 0.7, ideaTextTransLeave, "+=2.5")
+            .from(".idea-5", 0.7, {
+                rotationX: 15,
+                rotationZ: -10,
+                skewY: "-5deg",
+                y: 50,
+                z: 10,
+                opacity: 0
+            }, "+=1.5")
+            .to(".idea-5 span", 0.7, { rotation: 90, x: 8 }, "+=1.4")
+            .to(".idea-5", 0.7, { scale: 0.2, opacity: 0 }, "+=2")
+            .staggerFrom(".idea-6 span", 0.8, {
+                scale: 3,
+                opacity: 0,
+                rotation: 15,
+                ease: "expo.out"
+            }, 0.2)
+            .staggerTo(".idea-6 span", 0.8, {
+                scale: 3,
+                opacity: 0,
+                rotation: -15,
+                ease: "expo.out"
+            }, 0.2, "+=1.5")
+            .staggerFromTo(".baloons div", 2.5, {
+                opacity: 0.9,
+                y: 1400
+            }, {
+                opacity: 1,
+                y: -1000
+            }, 0.2)
+            .from(".profile-picture", 0.5, {
+                scale: 3.5,
+                opacity: 0,
+                x: 25,
+                y: -25,
+                rotationZ: -45
+            }, "-=2")
+            .staggerFrom(".wish-hbd span", 0.7, {
+                opacity: 0,
+                y: -50,
+                rotation: 150,
+                skewX: "30deg",
+                ease: "elastic.out(1, 0.5)"
+            }, 0.1)
+            .staggerFromTo(".wish-hbd span", 0.7, {
+                scale: 1.4,
+                rotationY: 150
+            }, {
+                scale: 1,
+                rotationY: 0,
+                color: "#ff69b4",
+                ease: "expo.out"
+            }, 0.1, "party")
+            .from(".wish h5", 0.5, {
+                opacity: 0,
+                y: 10,
+                skewX: "-15deg"
+            }, "party")
+            .staggerTo(".eight svg", 1.5, {
+                visibility: "visible",
+                opacity: 0,
+                scale: 80,
+                repeat: 3,
+                repeatDelay: 1.4
+            }, 0.3)
+            .to(".six", 0.5, { opacity: 0, y: 30, zIndex: "-1" })
+            .staggerFrom(".nine p", 1, ideaTextTrans, 1.2);
+
+            // Continue button click
+            document.getElementById('continueBtn').addEventListener('click', () => {
+                document.getElementById('animationContainer').style.display = 'none';
+                document.getElementById('mainWebsite').classList.add('active');
+                document.body.style.overflow = 'auto';
+                setTimeout(createFireworks, 500);
+            });
+        };
+
+        // Blow candles
+        function blowCandles() {
+            const candles = document.querySelectorAll('.candle');
+            candles.forEach(candle => {
+                candle.style.opacity = '0.3';
+                candle.innerHTML = '💨';
+            });
+            
+            setTimeout(() => {
+                candles.forEach(candle => {
+                    candle.style.opacity = '1';
+                    candle.innerHTML = '🕯️';
+                });
+            }, 3000);
+
+            createFireworks();
+        }
+
+        // Make wish
+        function makeWish() {
+            const wishes = [
+                '🌟 Your wish has been sent to the universe! May all your dreams come true, Yogita! 🌟',
+                '✨ The birthday fairy has received your wish! Something magical is coming your way! ✨',
+                '💫 Wish granted! The universe is conspiring to make your year amazing! 💫',
+                '🎊 Your wish is floating up to the stars! Get ready for wonderful surprises! 🎊'
+            ];
+            
+            const randomWish = wishes[Math.floor(Math.random() * wishes.length)];
+            Swal.fire({
+                title: 'Wish Made!',
+                text: randomWish,
+                icon: 'success',
+                confirmButtonColor: '#ff6b6b'
+            });
+            createFireworks();
+        }
+
+        // Flip card
+        function flipCard() {
+            const card = document.getElementById('birthdayCard');
+            card.classList.toggle('flipped');
+        }
+
+        // Create fireworks
+        function createFireworks() {
+            const colors = ['#ff6b6b', '#ffd93d', '#6bcf7f', '#4ecdc4', '#ff9a9e', '#fecfef', '#f093fb'];
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    firework.style.left = (Math.random() * 80 + 10) + '%';
+                    firework.style.top = (Math.random() * 80 + 10) + '%';
+                    firework.style.boxShadow = `0 0 20px ${colors[Math.floor(Math.random() * colors.length)]}`;
+                    
+                    document.body.appendChild(firework);
+
+                    setTimeout(() => {
+                        firework.style.transform = 'scale(3)';
+                        firework.style.opacity = '0';
+                        firework.style.transition = 'all 1s ease-out';
+                    }, 100);
+
+                    setTimeout(() => {
+                        if (firework.parentNode) {
+                            firework.remove();
+                        }
+                    }, 2000);
+                }, i * 100);
+            }
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(item.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createBalloons();
+            showDialogue(0);
+        });
+//         document.getElementById('mainWebsite').style.display = 'block';
+// document.getElementById('animationContainer').style.display = 'none';
+
+    </script>
+    <script>
+        // Keyword travel animation + mobile gallery controls
+        (function(){
+            const frames = Array.from(document.querySelectorAll('.photo-frame'));
+
+            function animateKeyword(frame) {
+                const keywordEl = frame.querySelector('.keyword');
+                const fullEl = frame.querySelector('.full');
+                const targetEl = frame.querySelector('.target-word');
+                if (!keywordEl || !targetEl || !fullEl) return;
+
+                // show full sentence
+                fullEl.style.opacity = '1';
+                fullEl.style.transform = 'translateY(0)';
+
+                // clone keyword and animate to target location
+                const clone = keywordEl.cloneNode(true);
+                clone.style.position = 'fixed';
+                clone.style.zIndex = 9999;
+                const kwRect = keywordEl.getBoundingClientRect();
+                clone.style.left = kwRect.left + 'px';
+                clone.style.top = kwRect.top + 'px';
+                clone.style.margin = '0';
+                clone.style.transition = 'all 450ms cubic-bezier(.2,.9,.2,1)';
+                document.body.appendChild(clone);
+
+                // compute target position (center of target word)
+                const tgtRect = targetEl.getBoundingClientRect();
+                const targetX = tgtRect.left + (tgtRect.width / 2) - (kwRect.width / 2);
+                const targetY = tgtRect.top;
+
+                // force reflow then move
+                requestAnimationFrame(() => {
+                    clone.style.left = targetX + 'px';
+                    clone.style.top = targetY + 'px';
+                    clone.style.transform = 'scale(1)';
+                    clone.style.opacity = '0.95';
+                });
+
+                // after animation, remove clone and ensure target-word is visible
+                setTimeout(() => {
+                    clone.remove();
+                }, 500);
+            }
+
+            // Hover for desktop
+            frames.forEach(frame => {
+                frame.addEventListener('mouseenter', () => animateKeyword(frame));
+                // For touch devices: tap toggles reveal
+                frame.addEventListener('click', (e) => {
+                    // prevent double-anim with hover
+                    if (window.matchMedia('(hover: none)').matches) {
+                        // toggle full text
+                        const fullEl = frame.querySelector('.full');
+                        if (!fullEl) return;
+                        const isShown = fullEl.style.opacity === '1';
+                        if (!isShown) animateKeyword(frame);
+                        else { fullEl.style.opacity = ''; fullEl.style.transform = ''; }
+                    }
+                });
+            });
+
+            // Gallery controls
+            const nextBtn = document.getElementById('galleryNext');
+            const prevBtn = document.getElementById('galleryPrev');
+            const gallery = document.getElementById('photoGallery');
+
+            function scrollToFrame(idx) {
+                const f = frames[idx];
+                if (!f) return;
+                f.scrollIntoView({behavior: 'smooth', inline: 'center'});
+                // reveal caption after scroll
+                setTimeout(() => animateKeyword(f), 450);
+            }
+
+            let current = 0;
+            if (nextBtn && prevBtn && gallery) {
+                nextBtn.addEventListener('click', () => {
+                    current = Math.min(current + 1, frames.length - 1);
+                    scrollToFrame(current);
+                });
+                prevBtn.addEventListener('click', () => {
+                    current = Math.max(current - 1, 0);
+                    scrollToFrame(current);
+                });
+
+                // update current on manual scroll
+                let scrollTimeout;
+                gallery.addEventListener('scroll', () => {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        const center = window.innerWidth / 2;
+                        let best = 0, bestDist = Infinity;
+                        frames.forEach((f, i) => {
+                            const r = f.getBoundingClientRect();
+                            const dist = Math.abs((r.left + r.right)/2 - center);
+                            if (dist < bestDist) { bestDist = dist; best = i; }
+                        });
+                        current = best;
+                    }, 150);
+                });
+            }
+        })();
+          
+    </script>
+</body>
+</html>
